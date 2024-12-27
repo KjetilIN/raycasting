@@ -24,7 +24,7 @@ float ticks_since_last_frame = 0.0f;
 Player_T player;  
 
 // Map that has details on the wall settings
-Map_T *map = NULL; 
+Map_T map; 
 
 // List of all rays 
 Ray_T *rays[RAY_COUNT]; 
@@ -104,14 +104,14 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Render the walls by using the color buffer
-    render_room_projection(rays, color_buffer, &player, &wolfenstein_textures);
+    render_room_projection(rays, &color_buffer, &player, &wolfenstein_textures);
 
     // Render color buffer
     render_color_buffer(renderer, color_buffer, color_buffer_texture);
     fill_color_buffer(color_buffer, 0xFF000000);
 
     // Render map
-    render_map(map, renderer);
+    render_map(&map, renderer);
 
     // Render rays 
     render_rays(rays, renderer, &player);
@@ -238,17 +238,16 @@ void update(){
     ticks_since_last_frame = SDL_GetTicks();
 
     // Update player state
-    move_player(&player, map, dt);
+    move_player(&player, &map, dt);
 
     // Cast all rays
-    cast_rays(rays, map, &player);
+    cast_rays(rays, &map, &player);
 }
 
 /**
  * Method to free all game object resources at the end of the game
  */
 void freeGameObjects(){
-    free_map(map);
     free_rays(rays);
 }
 

@@ -28,8 +28,8 @@ void move_player(Player_T *player, struct Map* map, float delta_time)
     float movestep = player->walk_direction * player->walk_speed * delta_time;
     
     // Calculate the new x and y positions 
-    float new_x = player->x + cos(player->rotation_angle) * movestep; 
-    float new_y = player->y + sin(player->rotation_angle) * movestep;
+    float new_x = player->x + SDL_cos(player->rotation_angle) * movestep; 
+    float new_y = player->y + SDL_sin(player->rotation_angle) * movestep;
 
     // Set new x and y postion for the player
     if (!has_wall_at(map, new_x, new_y)){
@@ -55,7 +55,7 @@ void render_player(Player_T* player, SDL_Renderer* renderer)
     SDL_RenderDrawLineF(renderer, 
         MINIMAP_SCALE * player->x,
         MINIMAP_SCALE * player->y, 
-        MINIMAP_SCALE * player->x + cos(player->rotation_angle) * 40,
-        MINIMAP_SCALE * player->y + sin(player->rotation_angle) * 40
+        MINIMAP_SCALE * player->x + SDL_cos(player->rotation_angle) * 40,
+        MINIMAP_SCALE * player->y + SDL_sin(player->rotation_angle) * 40
     );
 }
