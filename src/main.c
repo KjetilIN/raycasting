@@ -89,6 +89,7 @@ void destroy_window(){
     // Destroy window
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_QuitSubSystem(SDL_INIT_EVERYTHING);
     SDL_Quit();
 }
 
