@@ -3,6 +3,8 @@
 #include "map.h"
 #include "player.h"
 #include <limits.h>
+#include <float.h> 
+#include <SDL_stdinc.h>
 #include <SDL.h>
 
 void cast_ray(Ray_T *rays, struct Map *map, struct Player *player, float ray_angle, int strip_numb)

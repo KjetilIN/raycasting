@@ -67,7 +67,7 @@ int init_window(){
     // Create SDL renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     if(!renderer){
-        SDL_Log("Could not crete SDL renderer\n");
+        SDL_Log("Could not create SDL renderer\n");
         return 1; 
     }
 
