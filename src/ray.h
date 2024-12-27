@@ -27,20 +27,6 @@ typedef struct Ray {
 } Ray_T;
 
 /**
- * Allocates memory for the rays list 
- * 
- * @param rays rays to be renders
- */
-void init_rays(Ray_T *rays[RAY_COUNT]);
-
-/**
- * De allocates memory for the rays list 
- * 
- * @param rays rays array to be freed
- */
-void free_rays(Ray_T *rays[RAY_COUNT]);
-
-/**
  * Cast a ray on the given map from the given player, and set the ray struct in the array list of rays.
  * 
  * @param rays the list of rays
@@ -49,7 +35,7 @@ void free_rays(Ray_T *rays[RAY_COUNT]);
  * @param ray_angle the angle the ray currently have
  * @param strip_numb the column strip id, used as a index to place the ray in the ray list
  */
-void cast_ray(Ray_T *rays[RAY_COUNT], struct Map *map, struct Player *player, float ray_angle, int strip_numb);
+void cast_ray(Ray_T *rays, struct Map *map, struct Player *player, float ray_angle, int strip_numb);
 
 /**
  * Casts all the rays from the given player position
@@ -60,7 +46,7 @@ void cast_ray(Ray_T *rays[RAY_COUNT], struct Map *map, struct Player *player, fl
  * @param map the map to cast all rays in 
  * @param player given player to cast rays from 
  */
-void cast_rays(Ray_T *rays[RAY_COUNT], struct Map *map, struct Player *player);
+void cast_rays(Ray_T *rays, struct Map *map, struct Player *player);
 
 /**
  * Render the rays in the minimap from the given player position. 
@@ -72,7 +58,7 @@ void cast_rays(Ray_T *rays[RAY_COUNT], struct Map *map, struct Player *player);
  * @param renderer SDL renderer to use for rendering the rays
  * @param player player that have been used to cast rays from
  */
-void render_rays(Ray_T *rays[RAY_COUNT], SDL_Renderer *renderer, struct Player *player);
+void render_rays(Ray_T *rays, SDL_Renderer *renderer, struct Player *player);
 
 #endif
 

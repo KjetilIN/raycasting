@@ -27,7 +27,7 @@ Player_T player;
 Map_T map; 
 
 // List of all rays 
-Ray_T *rays[RAY_COUNT]; 
+Ray_T rays[RAY_COUNT]; 
 
 // Color buffer 
 Uint32 color_buffer[WINDOW_HEIGHT * WINDOW_WIDTH]; 
@@ -143,7 +143,6 @@ void setup(){
     // Set the initial player postion
     init_player(&player);
     init_default_map(&map);
-    init_rays(rays);
 
     // Create the color buffer SDL texture
     // Allows the renderer to use the texture as a stream
@@ -244,14 +243,6 @@ void update(){
     cast_rays(rays, &map, &player);
 }
 
-/**
- * Method to free all game object resources at the end of the game
- */
-void freeGameObjects(){
-    free_rays(rays);
-}
-
-
 int main(int argc, char **argv){
     // Not using args
     (void)argc;
@@ -274,9 +265,6 @@ int main(int argc, char **argv){
         // Render the game
         render();
     }
-
-    // Free all game objects
-    freeGameObjects();
 
     // Free SDL resources
     destroy_window();
