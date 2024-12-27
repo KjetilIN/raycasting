@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "constants.h" // Include only necessary files
 
 // Forward declaration
@@ -17,14 +17,8 @@ typedef struct Map {
  * 
  * @param map given map to allocate memory for
  */
-void init_default_map(Map_T **map);
+void init_default_map(Map_T *map);
 
-/**
- * Deallocate map resources
- * 
- * @param map given map to deallocate resources for 
- */
-void free_map(Map_T *map);
 
 /**
  * Render the given minimap to the SDL renderers
@@ -64,6 +58,6 @@ int has_wall_at(Map_T *map, float x, float y);
  * @param player player that casts the projections 
  * @param wall_texture pointer to wolfenstein textures for the wall.
  */
-void render_room_projection(struct Ray *rays[RAY_COUNT], Uint32 *color_buffer, struct Player *player, Uint32 *wall_texture[8]);
+void render_room_projection(struct Ray *rays, Uint32 *color_buffer, struct Player *player, Uint32 *wall_texture[8]);
 
 #endif

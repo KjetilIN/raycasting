@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "map.h"
 #include "constants.h"
 #include "ray.h"
@@ -26,36 +26,17 @@ const int DEFAULT_MAP[ROWS][COLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5}
 };
 
-void init_default_map(Map_T** map)
+void init_default_map(Map_T* map)
 {
-    *map = malloc(sizeof(Map_T));
-    if (!map){
-        fprintf(stderr, "Failed to allocate memory for map\n");
-        exit(1);
-    }
-    
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            (*map)->grid[i][j] = DEFAULT_MAP[i][j];
+            map->grid[i][j] = DEFAULT_MAP[i][j];
         }
-    }
-}
-
-void free_map(Map_T *map)
-{
-    if (map){
-        free(map);
     }
 }
 
 void render_map(Map_T *map, SDL_Renderer* renderer)
 {
-    // Check if map has been initalized
-    if (map == NULL){
-        fprintf(stderr, "Map was not initalized for rendering\n");
-        exit(1);
-    }
-
     // Render map
     for (int i = 0; i < ROWS; i++){
         for(int j = 0; j < COLS; j++){
@@ -89,8 +70,8 @@ int wall_content(Map_T *map, float x, float y)
     }
 
     // Grid position 
-    int grid_x = (int) floor(x / TILE_SIZE);
-    int grid_y = (int) floor(y / TILE_SIZE);
+    int grid_x = (int) SDL_floor(x / TILE_SIZE);
+    int grid_y = (int) SDL_floor(y / TILE_SIZE);
 
     // Return the content of the grid at that given position. 
     return map->grid[grid_y][grid_x];
@@ -111,12 +92,12 @@ int has_wall_at(Map_T *map, float x, float y)
     return map->grid[grid_y][grid_x] != 0;
 }
 
-void render_room_projection(struct Ray *rays[RAY_COUNT], Uint32 *color_buffer, struct Player *player, Uint32 *wall_texture[8])
+void render_room_projection(struct Ray *rays, Uint32 *color_buffer, struct Player *player, Uint32 *wall_texture[8])
 {
     for (int i = 0; i < RAY_COUNT; i++){
         // Calculate the correct distance for fixing the fish eye effect
-        float correct_distance = rays[i]->distance * cos(rays[i]->ray_angle - player->rotation_angle);
-        float distance_projection_plane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE /2);
+        float correct_distance = rays[i].distance * SDL_cos(rays[i].ray_angle - player->rotation_angle);
+        float distance_projection_plane = (WINDOW_WIDTH / 2) / SDL_tan(FOV_ANGLE /2);
         float projection_wall_height = (TILE_SIZE / correct_distance) * distance_projection_plane;
 
         // Calculate the strip height of the wall 
@@ -138,17 +119,17 @@ void render_room_projection(struct Ray *rays[RAY_COUNT], Uint32 *color_buffer, s
 
         // Get the current wall ID
         // Will be used as a index to the textures in the array
-        int TEXTURE_INDEX = rays[i]->wall_hit_content - 1;
+        int TEXTURE_INDEX = rays[i].wall_hit_content - 1;
 
 
         // We calculate the offset for texture in X axis
         int texture_offset_x; 
-        if (rays[i]->was_hit_vertical){
+        if (rays[i].was_hit_vertical){
             // vertical hit
-            texture_offset_x = (int)rays[i]->wall_hit_y % TILE_SIZE; 
+            texture_offset_x = (int)rays[i].wall_hit_y % TILE_SIZE; 
         }else{
             // horizontal hit 
-            texture_offset_x = (int)rays[i]->wall_hit_x % TILE_SIZE; 
+            texture_offset_x = (int)rays[i].wall_hit_x % TILE_SIZE; 
         }
 
         // Render the strip from the top to the bottom

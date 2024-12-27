@@ -1,14 +1,7 @@
 #ifndef TEXTURE_BUFFER_H
 #define TEXTURE_BUFFER_H
 
-#include <SDL2/SDL.h>
-
-/**
- * Allocate memory for the texture buffer.
- * 
- * @param texture_buffer buffer pointer to for the memory
- */
-void malloc_texture_buffer(Uint32 **texture_buffer);
+#include <SDL.h>
 
 /**
  * Fills the given wall texture buffer with the given color.

@@ -1,6 +1,13 @@
+CC        = gcc
+CFLAGS    = -Wall -Wextra -g3 -fsanitize=address,undefined
+PKGFLAGS  != pkg-config --cflags --libs sdl2
+
+
 build:
-	gcc -Wall -Wextra -std=c99 ./src/*.c -lSDL2 -lm -o raycast;
-run: 
+	$(CC) $(CFLAGS) -o raycast src/*.c $(PKGFLAGS) -lm
+
+run:
 	./raycast
+
 clean:
-	rm raycast
+	rm -f raycast
