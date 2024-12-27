@@ -35,9 +35,6 @@ Uint32 color_buffer[WINDOW_HEIGHT * WINDOW_WIDTH];
 // Color buffer texture 
 SDL_Texture *color_buffer_texture; 
 
-// Wall texture pointer
-Uint32 *wall_texture = NULL; 
-
 // Pointer to all wolfenstein textures
 // It is an array of wall textures
 Uint32 *wolfenstein_textures[8];
@@ -50,7 +47,7 @@ Uint32 *wolfenstein_textures[8];
 int init_window(){
     // Initialize the SDL library
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
-        fprintf(stderr, "Error when initializing the SDL library\n");
+        SDL_Log("Error when initializing the SDL library\n");
         return 1; 
     }
 
@@ -63,14 +60,14 @@ int init_window(){
         SDL_WINDOW_BORDERLESS
     );
     if(!window){
-        fprintf(stderr, "Could not create SDL window\n");
+        SDL_Log("Could not create SDL window\n");
         return 1; 
     }
 
     // Create SDL renderer
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     if(!renderer){
-        fprintf(stderr, "Could not crete SDL renderer\n");
+        SDL_Log("Could not crete SDL renderer\n");
         return 1; 
     }
 
@@ -104,7 +101,7 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Render the walls by using the color buffer
-    render_room_projection(rays, &color_buffer, &player, &wolfenstein_textures);
+    render_room_projection(rays, color_buffer, &player, wolfenstein_textures);
 
     // Render color buffer
     render_color_buffer(renderer, color_buffer, color_buffer_texture);
@@ -127,9 +124,6 @@ void render(){
  * Method for setting up the game objects
  */
 void setup(){
-    // Load wolfenstein wall textures for the text buffer
-    malloc_texture_buffer(&wolfenstein_textures);
-
     // Assign textures in the texture buffer
     wolfenstein_textures[0] = (Uint32*) REDBRICK_TEXTURE; 
     wolfenstein_textures[1] = (Uint32*) PURPLESTONE_TEXTURE;
