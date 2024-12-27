@@ -21,7 +21,7 @@ int game_running;
 float ticks_since_last_frame = 0.0f; 
 
 // Player that walks in the ray cast simulation
-Player_T *player = NULL;  
+Player_T player;  
 
 // Map that has details on the wall settings
 Map_T *map = NULL; 
@@ -29,8 +29,8 @@ Map_T *map = NULL;
 // List of all rays 
 Ray_T *rays[RAY_COUNT]; 
 
-// Color buffer pointer 
-Uint32 *color_buffer = NULL; 
+// Color buffer 
+Uint32 color_buffer[WINDOW_HEIGHT * WINDOW_WIDTH]; 
 
 // Color buffer texture 
 SDL_Texture *color_buffer_texture; 
@@ -104,7 +104,7 @@ void render(){
     SDL_RenderClear(renderer);
 
     // Render the walls by using the color buffer
-    render_room_projection(rays, color_buffer, player, &wolfenstein_textures);
+    render_room_projection(rays, color_buffer, &player, &wolfenstein_textures);
 
     // Render color buffer
     render_color_buffer(renderer, color_buffer, color_buffer_texture);
@@ -114,10 +114,10 @@ void render(){
     render_map(map, renderer);
 
     // Render rays 
-    render_rays(rays, renderer, player);
+    render_rays(rays, renderer, &player);
 
     // Render player 
-    render_player(player, renderer);
+    render_player(&player, renderer);
 
     // Rendering all game objects
     SDL_RenderPresent(renderer);
@@ -127,9 +127,6 @@ void render(){
  * Method for setting up the game objects
  */
 void setup(){
-    // Allocate all buffers
-    malloc_color_buffer(&color_buffer);
-
     // Load wolfenstein wall textures for the text buffer
     malloc_texture_buffer(&wolfenstein_textures);
 
@@ -187,32 +184,32 @@ void process_input(){
 
                 // WSAD for walking the player
                 if (event.key.keysym.sym == SDLK_w) {
-                    player->walk_direction = 1;  
+                    player.walk_direction = 1;  
                 }
                 if (event.key.keysym.sym == SDLK_s) {
-                    player->walk_direction = -1; 
+                    player.walk_direction = -1; 
                 }
                 if (event.key.keysym.sym == SDLK_d) {
-                    player->turn_direction = 1; 
+                    player.turn_direction = 1; 
                 }
                 if (event.key.keysym.sym == SDLK_a) {
-                    player->turn_direction = -1; 
+                    player.turn_direction = -1; 
                 }
                 break; 
 
             case SDL_KEYUP:
                 // WASD for walking the player
                 if (event.key.keysym.sym == SDLK_w) {
-                    player->walk_direction = 0;  
+                    player.walk_direction = 0;  
                 }
                 if (event.key.keysym.sym == SDLK_s) {
-                    player->walk_direction = 0; 
+                    player.walk_direction = 0; 
                 }
                 if (event.key.keysym.sym == SDLK_d) {
-                    player->turn_direction = 0; 
+                    player.turn_direction = 0; 
                 }
                 if (event.key.keysym.sym == SDLK_a) {
-                    player->turn_direction = 0; 
+                    player.turn_direction = 0; 
                 }
                 break; 
             default:
@@ -241,24 +238,26 @@ void update(){
     ticks_since_last_frame = SDL_GetTicks();
 
     // Update player state
-    move_player(player, map, dt);
+    move_player(&player, map, dt);
 
     // Cast all rays
-    cast_rays(rays, map, player);
+    cast_rays(rays, map, &player);
 }
 
 /**
  * Method to free all game object resources at the end of the game
  */
 void freeGameObjects(){
-    free_color_buffer(color_buffer);
     free_map(map);
-    free_player(player);
     free_rays(rays);
 }
 
 
-int main(){
+int main(int argc, char **argv){
+    // Not using args
+    (void)argc;
+    (void)argv;
+
     // Initialize the window
     game_running = !init_window();
 
