@@ -4,7 +4,7 @@ PKGFLAGS  != pkg-config --cflags --libs sdl2
 
 
 build:
-	$(CC) $(CFLAGS) -o $@ src/*.c $(PKGFLAGS) -lm
+	$(CC) $(CFLAGS) -o raycast src/*.c $(PKGFLAGS) -lm
 
 run:
 	./raycast

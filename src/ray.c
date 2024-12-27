@@ -3,7 +3,7 @@
 #include "map.h"
 #include "player.h"
 #include <limits.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 void init_rays(Ray_T *rays[RAY_COUNT]) {
     if (RAY_COUNT <= 0) {

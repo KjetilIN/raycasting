@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "constants.h" // Only include this for ROWS/COLS
 
 // Forward declaration

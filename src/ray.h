@@ -2,7 +2,7 @@
 #define RAY_H
 
 #include "constants.h" 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 // Forward declarations
 struct Map;

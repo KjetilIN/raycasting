@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "constants.h" // Include only necessary files
 
 // Forward declaration

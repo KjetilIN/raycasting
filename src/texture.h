@@ -1,7 +1,7 @@
 #ifndef TEXTURE_BUFFER_H
 #define TEXTURE_BUFFER_H
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 /**
  * Allocate memory for the texture buffer.

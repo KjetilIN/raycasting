@@ -1,6 +1,6 @@
 #include "color_buffer.h"
 #include "constants.h"
-#include <SDL2/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 void malloc_color_buffer(Uint32 **color_buffer) {
     // Allocate memory for the color buffer

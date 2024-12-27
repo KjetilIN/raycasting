@@ -1,5 +1,5 @@
-#include <SDL2/SDL_stdinc.h>
-#include <SDL2/SDL.h>
+#include <SDL_stdinc.h>
+#include <SDL.h>
 #ifndef COLOR_BUFFER_H
 #define COLOR_BUFFER_H
 
