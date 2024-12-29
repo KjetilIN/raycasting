@@ -1,6 +1,6 @@
 CC        = gcc
 CFLAGS    = -Wall -Wextra -g3 -fsanitize=address,undefined
-PKGFLAGS  != pkg-config --cflags --libs sdl2
+PKGFLAGS  = $(shell pkg-config --cflags --libs sdl2)
 
 
 build:
